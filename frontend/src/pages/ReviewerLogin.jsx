@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { login } from '../services/api';
+import { Link } from 'react-router-dom';
 
 function ReviewerLogin({ onLoginSuccess }) {
   const [email, setEmail] = useState('');
@@ -46,6 +47,9 @@ function ReviewerLogin({ onLoginSuccess }) {
           <button type="submit" style={{ width: '100%', padding: '14px', backgroundColor: '#ff5722', color: 'white', fontWeight: 'bold', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '16px' }}>Login</button>
         </div>
       </form>
+      <div style={{marginTop: '20px', fontSize: '14px', color: '#ccc'}}>
+        Are you an Author? <Link to="/author/login" style={{color: '#ff5722', textDecoration: 'none'}}>Go to Author Login</Link>
+      </div>
     </div>
   );
 }
