@@ -47,8 +47,9 @@ function AuthorLogin({ onLoginSuccess }) {
           <button type="submit" style={{ width: '100%', padding: '14px', backgroundColor: '#ff5722', color: 'white', fontWeight: 'bold', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '16px' }}>Login</button>
         </div>
       </form>
-      <div style={{marginTop: '20px', fontSize: '14px', color: '#ccc'}}>
-        Don't have an account? <Link to="/author/register" style={{color: '#ff5722', textDecoration: 'none'}}>Register as Author</Link>
+      <div style={{marginTop: '20px', fontSize: '14px', color: '#ccc', display: 'flex', flexDirection: 'column', gap: '10px'}}>
+        <div>Don't have an account? <Link to="/author/register" style={{color: '#ff5722', textDecoration: 'none'}}>Register as Author</Link></div>
+        <div>Are you a Reviewer? <Link to="/reviewer/login" style={{color: '#ff5722', textDecoration: 'none'}}>Go to Reviewer Login</Link></div>
       </div>
     </div>
   );
