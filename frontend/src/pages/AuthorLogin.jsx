@@ -27,7 +27,7 @@ function AuthorLogin({ onLoginSuccess }) {
   return (
     <div style={{ maxWidth: 350, margin: '50px auto', padding: '30px', backgroundColor: '#1e1e1e', borderRadius: '10px', boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)', textAlign: 'center', border: '1px solid #333' }}>
       <img src="/logo.png" alt="Logo" style={{ width: '80px', marginBottom: '20px', borderRadius: '8px' }} />
-      <h2 style={{ marginTop: 0, marginBottom: '25px', color: '#fff', fontWeight: '500' }}>Author Login</h2>
+      <h2 style={{ marginTop: 0, marginBottom: '25px', color: '#fff', fontWeight: '500' }}>Author & Reviewer Login</h2>
       
       {error && <div style={{ color: '#ff6b6b', marginBottom: 15, fontSize: '14px', backgroundColor: 'rgba(255, 107, 107, 0.1)', padding: '10px', borderRadius: '4px' }}>{error}</div>}
       
