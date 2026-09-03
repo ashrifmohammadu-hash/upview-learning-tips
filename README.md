@@ -3,6 +3,13 @@
 ## Project Overview
 Upview Learning Tips Inbox is a full-stack web application designed for authors to submit learning tips and reviewers to moderate them. It features user authentication, a tip scoring service, and distinct dashboards for authors and reviewers.
 
+## Features
+* **Separate Portals:** Distinct dashboards and login flows for Authors and Reviewers.
+* **Author Registration:** New authors can securely register their own accounts.
+* **Role-Based Security:** Passwords are mathematically hashed with bcrypt. Reviewer registration is disabled by design to protect the privileged role.
+* **Automated Scoring:** Tips are automatically scored based on length, capitalization, and keywords.
+* **Conflict Prevention:** Uses concurrency checks to prevent two reviewers from accidentally overriding each other's decisions.
+
 ## Tech Stack
 * **FastAPI**: High-performance Python backend framework for the REST API.
 * **SQLAlchemy**: ORM for database interactions.
@@ -73,11 +80,8 @@ The seed script (`python -m app.seed`) creates the following users:
 
 The application uses distinct authentication flows for Authors and Reviewers.
 
-**Author:**
-Register -> Login -> Submit Tips
-
-**Reviewer:**
-Existing Account -> Login -> Review Tips
+* **Author:** Register → Login → Submit Tips
+* **Reviewer:** Existing Account → Login → Review Tips
 
 *Note: Reviewer registration is intentionally disabled through the frontend because reviewer access is a highly privileged role managed internally.*
 
