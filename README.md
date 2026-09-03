@@ -69,7 +69,20 @@ The seed script (`python -m app.seed`) creates the following users:
 * Email: `reviewer@example.com`
 * Password: `reviewer123`
 
+## Authentication Flow
+
+The application uses distinct authentication flows for Authors and Reviewers.
+
+**Author:**
+Register -> Login -> Submit Tips
+
+**Reviewer:**
+Existing Account -> Login -> Review Tips
+
+*Note: Reviewer registration is intentionally disabled through the frontend because reviewer access is a highly privileged role managed internally.*
+
 ## API Endpoints
+* `POST /api/auth/register`: Register a new author account.
 * `POST /api/auth/login`: Authenticate and receive a JWT.
 * `POST /api/tips`: Submit a new learning tip (Author only).
 * `GET /api/tips`: List tips submitted by the authenticated author.
@@ -85,7 +98,6 @@ The seed script (`python -m app.seed`) creates the following users:
 
 ## Known Limitations
 * Basic error handling on the frontend (native alerts or simple red text instead of toasts).
-* No real user registration flow (relies on seeded users).
 * In a production environment, SQLite should be replaced with PostgreSQL or MySQL to better handle concurrency, though basic concurrent update checks are implemented.
 
 ---
@@ -103,3 +115,4 @@ The system prevents conflicting final states using a database transaction state 
 
 ### 4. Which part of the code would you replace first if a real ML model were added?
 I would replace the implementation inside the `scoring_service.score_tip(text)` function in `backend/app/scoring/service.py`. Because the scoring logic is decoupled from the FastAPI routers and database models, replacing the deterministic rules with an external ML API call (or loading a local model) would only require changing this specific module, keeping the rest of the application completely unaffected.
+

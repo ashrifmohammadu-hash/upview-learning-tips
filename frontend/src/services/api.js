@@ -79,3 +79,20 @@ export const rejectTip = async (id, reason) => {
     if (!response.ok) throw new Error(data.detail || 'Failed to reject');
     return data;
 };
+
+export const registerAuthor = async (email, password, confirmPassword) => {
+    const response = await fetch(`${API_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            email, 
+            password, 
+            confirm_password: confirmPassword 
+        }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.detail || 'Registration failed');
+    }
+    return data;
+};

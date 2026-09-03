@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Login from './pages/Login';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
+import Landing from './pages/Landing';
+import AuthorLogin from './pages/AuthorLogin';
+import ReviewerLogin from './pages/ReviewerLogin';
+import AuthorRegister from './pages/AuthorRegister';
 import AuthorDashboard from './pages/AuthorDashboard';
 import ReviewerDashboard from './pages/ReviewerDashboard';
 
@@ -21,23 +25,53 @@ function App() {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-      <header className="app-header">
-        <h1 className="header-title">Upview Learning Tips</h1>
-        {role && (
-          <div className="header-auth">
-            <span style={{ marginRight: '15px' }}>Logged in as: <strong>{role}</strong></span>
-            <button onClick={handleLogout} style={{ backgroundColor: '#d9534f' }}>Logout</button>
-          </div>
-        )}
-      </header>
+    <Router>
+      <div style={{ padding: '20px', fontFamily: 'sans-serif', minHeight: '100vh' }}>
+        <header className="app-header">
+          <h1 className="header-title">
+            <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>Upview Learning Tips</Link>
+          </h1>
+          {role && (
+            <div className="header-auth">
+              <span style={{ marginRight: '15px' }}>Logged in as: <strong>{role}</strong></span>
+              <button onClick={handleLogout} style={{ backgroundColor: '#d9534f' }}>Logout</button>
+            </div>
+          )}
+        </header>
 
-      <main style={{ marginTop: '20px' }}>
-        {!role && <Login onLoginSuccess={setRole} />}
-        {role === 'author' && <AuthorDashboard />}
-        {role === 'reviewer' && <ReviewerDashboard />}
-      </main>
-    </div>
+        <main style={{ marginTop: '20px' }}>
+          <Routes>
+            <Route path="/" element={<Landing role={role} />} />
+            
+            <Route path="/author/login" element={
+              role === 'author' ? <Navigate to="/author/dashboard" /> : 
+              role === 'reviewer' ? <Navigate to="/reviewer/dashboard" /> : 
+              <AuthorLogin onLoginSuccess={setRole} />
+            } />
+            
+            <Route path="/author/register" element={
+              role === 'author' ? <Navigate to="/author/dashboard" /> : 
+              role === 'reviewer' ? <Navigate to="/reviewer/dashboard" /> : 
+              <AuthorRegister />
+            } />
+            
+            <Route path="/reviewer/login" element={
+              role === 'author' ? <Navigate to="/author/dashboard" /> : 
+              role === 'reviewer' ? <Navigate to="/reviewer/dashboard" /> : 
+              <ReviewerLogin onLoginSuccess={setRole} />
+            } />
+            
+            <Route path="/author/dashboard" element={
+              role === 'author' ? <AuthorDashboard /> : <Navigate to="/author/login" />
+            } />
+            
+            <Route path="/reviewer/dashboard" element={
+              role === 'reviewer' ? <ReviewerDashboard /> : <Navigate to="/reviewer/login" />
+            } />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
 

@@ -1,0 +1,61 @@
+import React, { useState } from 'react';
+import { registerAuthor } from '../services/api';
+import { useNavigate, Link } from 'react-router-dom';
+
+function AuthorRegister() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      await registerAuthor(email, password, confirmPassword);
+      navigate('/author/login');
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  return (
+    <div style={{ maxWidth: 350, margin: '50px auto', padding: '30px', backgroundColor: '#1e1e1e', borderRadius: '10px', boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)', textAlign: 'center', border: '1px solid #333' }}>
+      <img src="/logo.png" alt="Logo" style={{ width: '80px', marginBottom: '20px', borderRadius: '8px' }} />
+      <h2 style={{ marginTop: 0, marginBottom: '25px', color: '#fff', fontWeight: '500' }}>Author Registration</h2>
+      
+      {error && <div style={{ color: '#ff6b6b', marginBottom: 15, fontSize: '14px', backgroundColor: 'rgba(255, 107, 107, 0.1)', padding: '10px', borderRadius: '4px' }}>{error}</div>}
+      
+      <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
+        <div style={{ marginBottom: 15 }}>
+          <label style={{ display: 'block', marginBottom: '5px', color: '#ccc', fontSize: '14px' }}>Email</label>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="author@example.com" style={{ width: '100%', padding: '12px', borderRadius: '6px', border: '1px solid #444', backgroundColor: '#2a2a2a', color: '#fff', boxSizing: 'border-box', outline: 'none' }} />
+        </div>
+        <div style={{ marginBottom: 15 }}>
+          <label style={{ display: 'block', marginBottom: '5px', color: '#ccc', fontSize: '14px' }}>Password</label>
+          <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="••••••••" style={{ width: '100%', padding: '12px', borderRadius: '6px', border: '1px solid #444', backgroundColor: '#2a2a2a', color: '#fff', boxSizing: 'border-box', outline: 'none' }} />
+        </div>
+        <div style={{ marginBottom: 25 }}>
+          <label style={{ display: 'block', marginBottom: '5px', color: '#ccc', fontSize: '14px' }}>Confirm Password</label>
+          <input type={showPassword ? "text" : "password"} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required placeholder="••••••••" style={{ width: '100%', padding: '12px', borderRadius: '6px', border: '1px solid #444', backgroundColor: '#2a2a2a', color: '#fff', boxSizing: 'border-box', outline: 'none' }} />
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <button type="submit" style={{ width: '100%', padding: '14px', backgroundColor: '#ff5722', color: 'white', fontWeight: 'bold', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '16px' }}>Register</button>
+        </div>
+      </form>
+      <div style={{marginTop: '20px', fontSize: '14px', color: '#ccc'}}>
+        Already have an account? <Link to="/author/login" style={{color: '#ff5722', textDecoration: 'none'}}>Login</Link>
+      </div>
+    </div>
+  );
+}
+
+export default AuthorRegister;

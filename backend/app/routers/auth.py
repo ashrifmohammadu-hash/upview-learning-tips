@@ -20,3 +20,24 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db:
         data={"sub": user.email, "role": user.role}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
+
+@router.post("/register")
+def register_author(user_in: schemas.UserRegister, db: Session = Depends(database.get_db)):
+    if user_in.password != user_in.confirm_password:
+        raise HTTPException(status_code=400, detail="Passwords do not match")
+    if not user_in.password.strip():
+        raise HTTPException(status_code=400, detail="Password cannot be empty")
+    
+    existing = db.query(models.User).filter(models.User.email == user_in.email).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="Email already registered")
+        
+    hashed_password = auth.get_password_hash(user_in.password)
+    new_user = models.User(
+        email=user_in.email,
+        hashed_password=hashed_password,
+        role="author" # hardcode to author
+    )
+    db.add(new_user)
+    db.commit()
+    return {"message": "Author registered successfully"}
